@@ -1,5 +1,6 @@
 # 1. Clone the project
 ```git clone https://github.com/DhirajKarangale/ReactNativeDemo```
+<br>
 ```cd ReactNativeDemo```
 
 # 2. Install dependencies
@@ -34,6 +35,7 @@
 
 # Test deeplinking 
 ```adb shell am start -W -a android.intent.action.VIEW -d "demo://profile/12" com.demo```
+<br>
 ```adb shell am start -W -a android.intent.action.VIEW -d "demo://home" com.demo```
 
 # Used build tools versions:
