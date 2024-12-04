@@ -8,6 +8,7 @@ function Web() {
 
     const [videoUrl, setVideURL] = useState("");
     const [isBuffering, setIsBuffering] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     function Msg(event) {
         const url = event.nativeEvent.data;
@@ -25,16 +26,17 @@ function Web() {
                     source={{ uri: videoUrl }}
                     style={styles.video}
                     controls={true}
-                    // resizeMode="cover"
                     resizeMode="contain"
                     onBuffer={({ isBuffering }) => setIsBuffering(isBuffering)}
                     onError={(e) => console.error('Error:', e)}
+                    onLoadStart={() => setIsLoading(true)}
+                    onLoad={() => setIsLoading(false)}
                 />
 
-                {isBuffering && (
+                {(isBuffering || isLoading) && (
                     <View style={styles.bufferingContainer}>
                         <ActivityIndicator size="large" color="white" />
-                        <Text style={styles.bufferingText}>Buffering...</Text>
+                        <Text style={styles.bufferingText}>{isLoading ? "Loading Video..." : "Buffering..."}</Text>
                     </View>
                 )}
             </View>
