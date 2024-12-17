@@ -12,11 +12,10 @@ const MWebView1 = () => {
     return <WebView source={{ uri: 'https://www.google.com' }} />;
 };
 
-// Create your own custom icon component
 const CustomIcon = ({ focused, iconName }) => {
     return (
         <Image
-            source={iconName}  // You can set dynamic source based on the iconName or condition
+            source={iconName}
             style={[styles.icon, focused ? styles.iconFocused : styles.icon]}
         />
     );
@@ -54,6 +53,14 @@ const Login = () => {
     );
 };
 
+const BuyOnline = () => {
+    return (
+        <View>
+            <Text>BuyOnline</Text>
+        </View>
+    );
+};
+
 const HomeStack = () => {
     return (
         <Stack.Navigator>
@@ -84,54 +91,155 @@ const HomeStack = () => {
 const FooterNavBar = () => {
     return (
         <NavigationContainer>
-            <Tab.Navigator>
+
+            <Tab.Navigator
+                initialRouteName="Home"
+                screenOptions={{
+                    tabBarStyle: {
+                        height: 80, 
+                        backgroundColor: '#f8f8f8',
+                        paddingBottom: 10, 
+                        paddingTop: 10,
+                    },
+                }}
+            >
                 <Tab.Screen
-                    name="HomePage"
-                    component={HomeStack}
+                    name="Buy Online"
+                    component={BuyOnline}
                     options={{
                         headerShown: false,
                         tabBarIcon: ({ focused, color, size }) => (
-                            <View style={[focused ? styles.iconContainerFocused : styles.iconContainer]}>
-                                <CustomIcon
-                                    focused={focused}
-                                    iconName={require('./icon1.png')}  // Add your custom icon path here
+                            <View
+                                style={[
+                                    focused ? styles.iconContainerFocused : styles.iconContainer,
+                                ]}>
+                                <Image
+                                    style={[
+                                        focused ? styles.iconFocused : styles.icon,
+                                        { width: size, height: size },
+                                    ]}
+                                    source={require('./icon1.png')}
                                 />
                             </View>
                         ),
-                        tabBarLabel: ({ focused, color }) => (<Text style={[focused ? styles.lableFocused : styles.lable]}>Home</Text>),
+                        tabBarLabel: ({ focused, color }) => (
+                            <Text style={[focused ? styles.lableFocused : styles.lable]}>
+                                Buy Online
+                            </Text>
+                        ),
                     }}
                 />
                 <Tab.Screen
-                    name="WebView"
-                    component={MWebView1}
+                    name="Service Hub"
+                    component={Home}
                     options={{
                         headerShown: false,
                         tabBarIcon: ({ focused, color, size }) => (
-                            <View style={[focused ? styles.iconContainerFocused : styles.iconContainer]}>
-                                <CustomIcon
-                                    focused={focused}
-                                    iconName={require('./icon2.png')}  // Add your custom icon path here
+                            <View
+                                style={[
+                                    focused ? styles.iconContainerFocused : styles.iconContainer,
+                                ]}>
+                                <Image
+                                    style={[
+                                        focused ? styles.iconFocused : styles.icon,
+                                        { width: size, height: size },
+                                    ]}
+                                    source={require('./icon2.png')}
                                 />
                             </View>
                         ),
-                        tabBarLabel: ({ focused, color }) => (<Text style={[focused ? styles.lableFocused : styles.lable]}>WebView</Text>),
+                        tabBarLabel: ({ focused, color }) => (
+                            <Text style={[focused ? styles.lableFocused : styles.lable]}>
+                                Service Hub
+                            </Text>
+                        ),
                     }}
                 />
-                {/* Add more screens with your custom icons here */}
+                <Tab.Screen
+                    name="Home"
+                    component={Home}
+                    options={{
+                        headerShown: false,
+                        tabBarIcon: ({ focused, color, size }) => (
+                            <View
+                                style={[
+                                    focused ? styles.iconContainerFocused : styles.iconContainer,
+                                ]}>
+                                <Image
+                                    style={[
+                                        focused ? styles.iconFocused : styles.icon,
+                                        { width: size, height: size },
+                                    ]}
+                                    source={require('./icon1.png')}
+                                />
+                            </View>
+                        ),
+                        tabBarLabel: ({ focused, color }) => (
+                            <Text style={[focused ? styles.lableFocused : styles.lable]}>
+                                Home
+                            </Text>
+                        ),
+                    }}
+                />
+                <Tab.Screen
+                    name="Pay Premium"
+                    component={Login}
+                    options={{
+                        headerShown: false,
+                        tabBarIcon: ({ focused, color, size }) => (
+                            <View
+                                style={[
+                                    focused ? styles.iconContainerFocused : styles.iconContainer,
+                                ]}>
+                                <Image
+                                    style={[
+                                        focused ? styles.iconFocused : styles.icon,
+                                        { width: size, height: size },
+                                    ]}
+                                    source={require('./icon2.png')}
+                                />
+                            </View>
+                        ),
+                        tabBarLabel: ({ focused, color }) => (
+                            <Text style={[focused ? styles.lableFocused : styles.lable]}>
+                                Pay Premium
+                            </Text>
+                        ),
+                    }}
+                />
+                <Tab.Screen
+                    name="My LIC"
+                    component={SettingsScreen}
+                    options={{
+                        headerShown: false,
+                        tabBarIcon: ({ focused, color, size }) => (
+                            <View
+                                style={[
+                                    focused ? styles.iconContainerFocused : styles.iconContainer,
+                                ]}>
+                                <Image
+                                    style={[
+                                        focused ? styles.iconFocused : styles.icon,
+                                        { width: size, height: size },
+                                    ]}
+                                    source={require('./icon1.png')}
+                                />
+                            </View>
+                        ),
+                        tabBarLabel: ({ focused, color }) => (
+                            <Text style={[focused ? styles.lableFocused : styles.lable]}>
+                                My LIC
+                            </Text>
+                        ),
+                    }}
+                />
             </Tab.Navigator>
+
         </NavigationContainer>
     );
-};
+}
 
 const styles = StyleSheet.create({
-    footerContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        backgroundColor: '#f8f8f8',
-        paddingVertical: 10,
-        borderTopWidth: 1,
-        borderColor: '#ddd',
-    },
     navItem: {
         alignItems: 'center',
         justifyContent: 'center',
@@ -156,7 +264,7 @@ const styles = StyleSheet.create({
 
     iconContainer: {
         width: 60,
-        height: 60,
+        height: 100,
         padding: 5,
         borderRadius: 30,
         alignItems: 'center',
@@ -165,12 +273,12 @@ const styles = StyleSheet.create({
 
     icon: {
         width: 25,
-        height: 25,
+        height: 60,
     },
 
     iconFocused: {
         width: 30,
-        height: 30,
+        height: 60,
     },
 
     lable: {
@@ -178,6 +286,7 @@ const styles = StyleSheet.create({
         margin: 0,
         color: '#5A5A5A',
         fontWeight: 'normal',
+        textAlign: 'center'
     },
 
     lableFocused: {
@@ -186,7 +295,7 @@ const styles = StyleSheet.create({
         padding: 0,
         margin: 0,
         transform: [{ translateY: -10 }],
-    }
+    },
 });
 
 export default FooterNavBar;

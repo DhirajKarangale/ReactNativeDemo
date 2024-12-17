@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Web from './Web';
 import Home from './Home';
 import Info from './Info';
+import Lic from './Lic';
 
 const Tab = createBottomTabNavigator();
 
@@ -15,10 +16,10 @@ const TabNavigator = () => {
 
     useEffect(() => {
         const checkDeepLink = async () => {
-            const url = await Linking.getInitialURL(); 
+            const url = await Linking.getInitialURL();
             if (url) {
                 const route = url.replace('demo://', '');
-                setInitialRoute(route.charAt(0).toUpperCase() + route.slice(1)); 
+                setInitialRoute(route.charAt(0).toUpperCase() + route.slice(1));
             }
         };
 
@@ -26,12 +27,12 @@ const TabNavigator = () => {
 
         const handleLinking = ({ url }) => {
             const route = url.replace('demo://', '');
-            setInitialRoute(route.charAt(0).toUpperCase() + route.slice(1)); 
+            setInitialRoute(route.charAt(0).toUpperCase() + route.slice(1));
         };
 
         Linking.addEventListener('url', handleLinking);
         return () => {
-            Linking.removeEventListener('url', handleLinking); 
+            Linking.removeEventListener('url', handleLinking);
         };
     }, []);
 
@@ -39,9 +40,10 @@ const TabNavigator = () => {
         prefixes: ['demo://'],
         config: {
             screens: {
-                Home: 'home', 
+                Home: 'home',
                 WebView: 'webview',
                 Info: 'info',
+                Lic: 'Lic'
             },
         },
     };
@@ -49,7 +51,7 @@ const TabNavigator = () => {
     return (
         <NavigationContainer linking={linking}>
             <Tab.Navigator
-                initialRouteName={initialRoute} 
+                initialRouteName={initialRoute}
                 screenOptions={({ route }) => ({
                     tabBarIcon: ({ focused, color, size }) => {
                         let iconName;
@@ -63,17 +65,16 @@ const TabNavigator = () => {
                             case 'Info':
                                 iconName = focused ? 'settings' : 'settings-outline';
                                 break;
+                            case 'Lic':
+                                iconName = focused ? 'information-circle' : 'information-circle-outline';
+                                break;
                             default:
                                 iconName = 'home-outline';
                         }
 
                         return (
                             <View
-                                style={
-                                    focused
-                                        ? styles.iconContainerFocused
-                                        : styles.iconContainer
-                                }>
+                                style={focused ? styles.iconContainerFocused : styles.iconContainer}>
                                 <Icon
                                     style={focused ? styles.iconFocused : styles.icon}
                                     name={iconName}
@@ -100,6 +101,7 @@ const TabNavigator = () => {
                 <Tab.Screen name="Info" component={Info} />
                 <Tab.Screen name="Home" component={Home} />
                 <Tab.Screen name="WebView" component={Web} />
+                <Tab.Screen name="Lic" component={Lic} />
 
             </Tab.Navigator>
         </NavigationContainer>

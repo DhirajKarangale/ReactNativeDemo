@@ -46,7 +46,7 @@ function Web() {
     return (
         <View style={{ flex: 1 }}>
             <WebView
-                source={{ uri: 'http://192.168.0.8:3000' }}
+                source={{ uri: 'http://192.168.0.113:3000' }}
                 accessibilityLabel="This is webview, React native"
                 accessible={true}
                 javaScriptEnabled={true}
