@@ -1,6 +1,5 @@
-import axios from 'axios';
 import WebView from 'react-native-webview';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNetInfo } from '@react-native-community/netinfo';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
@@ -10,6 +9,7 @@ function Lic() {
     const [webURL, setWebURL] = useState("");
     const screenWidth = Dimensions.get('window').width;
 
+    const webViewRef = useRef<WebView>(null);
     const { isConnected } = useNetInfo();
     const [localPage, setLocalPage] = useState<string>('<h1>Loading...</h1>');
 
@@ -20,15 +20,17 @@ function Lic() {
         { name: 'ULIP', url: 'https://esalesuat.licindia.in/Proposal?OpportunityId=51360223-05EB-47A1-8F7D-7929BCE1763A' },
     ];
 
-    const injectedJavaScript = `
-    window.ReactNativeWebView.postMessage(document.documentElement.outerHTML);
-`;
-
     async function storedPage(url: string, htmlContent: string) {
         if (!url || !htmlContent) return;
-        console.log("Save: " + htmlContent);
+
         try {
+            const existingData = await AsyncStorage.getItem(url);
+            if (existingData !== null) {
+                // console.log(`Removing old data for URL: ${url}`);
+                await AsyncStorage.removeItem(url);
+            }
             await AsyncStorage.setItem(url, htmlContent);
+            console.log("Saved - " + url + " - " + htmlContent.slice(0, 200));
         } catch (error) {
             console.log('Error saving page:', error);
         }
@@ -82,9 +84,16 @@ function Lic() {
             </TouchableOpacity>
 
             <WebView
+                ref={webViewRef}
                 source={!isConnected ? { html: localPage } : { uri: webURL }}
-                injectedJavaScript={`
-        (function() {
+                onMessage={handleMessage}
+                cacheEnabled={true}
+                javaScriptEnabled={true}
+                domStorageEnabled={true}
+                onLoadEnd={() => {
+                    setTimeout(() => {
+                        if (webViewRef.current) {
+                            webViewRef.current.injectJavaScript(`(function() {
             // Inline all CSS styles
             const styleSheets = Array.from(document.styleSheets);
             let inlineStyles = '';
@@ -137,13 +146,12 @@ function Lic() {
                 window.ReactNativeWebView.postMessage(document.documentElement.outerHTML);
             });
         })();
-    `}
-                onMessage={handleMessage}
-                cacheEnabled={true}
-                javaScriptEnabled={true}
-                domStorageEnabled={true}
+            `);
+                        }
+                    }, 5000);
+                }}
             />
-            
+
         </View>
     );
 }
