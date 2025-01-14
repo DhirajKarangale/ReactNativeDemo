@@ -1,8 +1,7 @@
 import WebView from 'react-native-webview';
 import React, { useState, useRef } from 'react';
-import { useNetInfo } from '@react-native-community/netinfo';
-// import OfflineCacheWebView from 'react-native-offline-cache-webview';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNetInfo } from '@react-native-community/netinfo';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 
 function Lic() {
