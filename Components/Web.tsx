@@ -10,7 +10,7 @@ function Web() {
     const [isBuffering, setIsBuffering] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
-    function Msg(event) {
+    function Msg(event: any) {
         const url = event.nativeEvent.data;
         setVideURL(url);
     }
@@ -46,7 +46,7 @@ function Web() {
     return (
         <View style={{ flex: 1 }}>
             <WebView
-                source={{ uri: 'http://192.168.0.113:3000' }}
+                source={{ uri: 'https://192.168.1.114:1337/test' }}
                 accessibilityLabel="This is webview, React native"
                 accessible={true}
                 javaScriptEnabled={true}
@@ -54,6 +54,11 @@ function Web() {
                 allowsInlineMediaPlayback={true}
                 mediaPlaybackRequiresUserAction={false}
                 hardwareAcceleration={true}
+                startInLoadingState={true}
+                allowUniversalAccessFromFileURLs={true}
+                allowFileAccessFromFileURLs={true}
+                originWhitelist={['*']}
+                mixedContentMode="always"
                 onMessage={(event) => Msg(event)}
             />
         </View>
