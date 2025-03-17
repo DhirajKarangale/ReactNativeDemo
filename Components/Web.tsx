@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, ActivityIndicator, Button, NativeModules } from 'react-native';
 import Video from 'react-native-video';
 import WebView from 'react-native-webview';
 
+const { WebViewModule } = NativeModules;
 
 function Web() {
 
@@ -10,7 +11,7 @@ function Web() {
     const [isBuffering, setIsBuffering] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
-    function Msg(event) {
+    function Msg(event: any) {
         const url = event.nativeEvent.data;
         setVideURL(url);
     }
@@ -43,10 +44,14 @@ function Web() {
         );
     }
 
+    const openWebView = () => {
+        WebViewModule.showWebView('https://192.168.1.114:1337/test');
+      };
+
     return (
         <View style={{ flex: 1 }}>
-            <WebView
-                source={{ uri: 'http://192.168.0.113:3000' }}
+            {/* <WebView
+                source={{ uri: 'https://192.168.1.114:1337/test' }}
                 accessibilityLabel="This is webview, React native"
                 accessible={true}
                 javaScriptEnabled={true}
@@ -54,8 +59,17 @@ function Web() {
                 allowsInlineMediaPlayback={true}
                 mediaPlaybackRequiresUserAction={false}
                 hardwareAcceleration={true}
+                startInLoadingState={true}
+                allowUniversalAccessFromFileURLs={true}
+                allowFileAccessFromFileURLs={true}
+                originWhitelist={['*']}
+                mixedContentMode="always"
                 onMessage={(event) => Msg(event)}
-            />
+            /> */}
+
+            <Text>DK Webview</Text>
+
+            {/* <Button title="Open WebView" onPress={openWebView} /> */}
         </View>
     );
 }

@@ -1,51 +1,32 @@
-import React from 'react';
-import { Button, View } from 'react-native';
-import TabNavigator from './Components/TabNavigator';
-import { fetch } from 'react-native-ssl-pinning';
-import updateCertificates from './Components/ssl';
+import React, { useState, useEffect } from 'react';
+import { View, Button, NativeModules, NativeEventEmitter } from 'react-native';
 
-function App(): React.JSX.Element {
+const { WebViewModule } = NativeModules;
+const eventEmitter = new NativeEventEmitter(WebViewModule);
 
-  const base_url = "https://192.168.1.12:1337";
+const App = () => {
+  const [isWebViewOpen, setIsWebViewOpen] = useState(false);
 
-  function TestAPI() {
-    fetch(`${base_url}/test`, {
-      method: 'GET',
-      sslPinning: { certs: ['server'], }
-    })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
+  const openWebView = () => {
+    WebViewModule.showWebView('https://192.168.1.114:1337/test');
+    setIsWebViewOpen(true);  // ✅ Hide button when WebView opens
+  };
 
-  async function UpdateSLL() {
-      console.log("Update SSL");
-      await updateCertificates();
-  }
+  useEffect(() => {
+    const subscription = eventEmitter.addListener('onWebViewClosed', () => {
+      setIsWebViewOpen(false);  // ✅ Show button when WebView closes
+    });
+
+    return () => subscription.remove();
+  }, []);
 
   return (
-    <>
-
-      <View style={{ flex: 1, gap: 5, padding: 20 }}>
-        <Button
-          onPress={UpdateSLL}
-          title="Update SLL"
-          color="#841584"
-        />
-
-        <Button
-          onPress={TestAPI}
-          title="Test API"
-          color="#841584"
-        />
-      </View>
-
-      {/* <TabNavigator /> */}
-    </>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      {!isWebViewOpen && ( // ✅ Show button only if WebView is hidden
+        <Button title="Open WebView" onPress={openWebView} />
+      )}
+    </View>
   );
-}
+};
 
 export default App;
