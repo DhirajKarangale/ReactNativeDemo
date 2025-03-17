@@ -14,26 +14,23 @@ const Tab = createBottomTabNavigator();
 const TabNavigator = () => {
     const [initialRoute, setInitialRoute] = useState('Home');
 
-    useEffect(() => {
-        const checkDeepLink = async () => {
-            const url = await Linking.getInitialURL();
-            if (url) {
-                const route = url.replace('demo://', '');
-                setInitialRoute(route.charAt(0).toUpperCase() + route.slice(1));
-            }
-        };
-
-        checkDeepLink();
-
-        const handleLinking = ({ url }) => {
+    async function checkDeepLink() {
+        const url = await Linking.getInitialURL();
+        if (url) {
             const route = url.replace('demo://', '');
             setInitialRoute(route.charAt(0).toUpperCase() + route.slice(1));
-        };
+        }
+    };
 
-        Linking.addEventListener('url', handleLinking);
-        return () => {
-            Linking.removeEventListener('url', handleLinking);
-        };
+    function handleLinking({ url }: { url: string }) {
+        const route = url.replace('demo://', '');
+        setInitialRoute(route.charAt(0).toUpperCase() + route.slice(1));
+    };
+
+    useEffect(() => {
+        checkDeepLink();
+        const subscription = Linking.addEventListener('url', handleLinking);
+        return () => { subscription.remove(); };
     }, []);
 
     const linking = {
@@ -100,7 +97,7 @@ const TabNavigator = () => {
 
                 <Tab.Screen name="Info" component={Info} />
                 <Tab.Screen name="Home" component={Home} />
-                <Tab.Screen name="WebView" component={Web} />
+                <Tab.Screen name="WebView" component={Info} />
                 <Tab.Screen name="Lic" component={Lic} />
 
             </Tab.Navigator>

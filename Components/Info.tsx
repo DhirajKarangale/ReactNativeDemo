@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Button } from 'react-native';
 
 const Info: React.FC = () => {
     return (
@@ -91,6 +91,7 @@ const Info: React.FC = () => {
                     <Text style={styles.code}>adb shell am start -W -a android.intent.action.VIEW -d "demo://info" com.demo</Text>
                 </Text>
             </View>
+
         </ScrollView>
     );
 };
