@@ -13,7 +13,7 @@ class WebViewModule(reactContext: ReactApplicationContext) : ReactContextBaseJav
         (currentActivity as? MainActivity)?.runOnUiThread {
             (currentActivity as MainActivity).run {
                 webView.visibility = View.VISIBLE
-                webView.loadUrl("https://192.168.1.114:1337/test")
+                webView.loadUrl("https://192.168.217.217:1337/test")
             }
         }
     }
