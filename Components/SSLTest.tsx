@@ -4,7 +4,7 @@ import { fetch } from 'react-native-ssl-pinning';
 import updateCertificates from './ssl';
 
 const SSLTest: React.FC = () => {
-    const base_url = "https://192.168.217.217:1337";
+    const base_url = "https://192.168.1.114:1337";
 
     function TestAPI() {
         fetch(`${base_url}/test`, {
