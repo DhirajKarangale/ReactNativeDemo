@@ -3,25 +3,28 @@ package com.demo
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
-import android.view.View
 
 class WebViewModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
-    override fun getName(): String = "WebViewModule"
+
+    override fun getName(): String {
+        return "WebViewModule"
+    }
 
     @ReactMethod
-    fun showWebView() {
-        (currentActivity as? MainActivity)?.runOnUiThread {
-            (currentActivity as MainActivity).run {
-                webView.visibility = View.VISIBLE
-                webView.loadUrl("https://192.168.217.217:1337/test")
-            }
+    fun showWebView(url: String) {
+        currentActivity?.let { activity ->
+            (activity as? MainActivity)?.showWebView(url)
+        } ?: run {
+            println("Error: currentActivity is null")
         }
     }
 
     @ReactMethod
     fun hideWebView() {
-        (currentActivity as? MainActivity)?.runOnUiThread {
-            (currentActivity as MainActivity).webView.visibility = View.GONE
+        currentActivity?.let { activity ->
+            (activity as? MainActivity)?.hideWebView()
+        } ?: run {
+            println("Error: currentActivity is null")
         }
     }
 }
