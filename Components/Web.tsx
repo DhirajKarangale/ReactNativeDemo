@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, ActivityIndicator, Button, NativeModules } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import Video from 'react-native-video';
 import WebView from 'react-native-webview';
 
-const { WebViewModule } = NativeModules;
 
 function Web() {
 
@@ -44,13 +43,9 @@ function Web() {
         );
     }
 
-    const openWebView = () => {
-        WebViewModule.showWebView('https://192.168.1.114:1337/test');
-      };
-
     return (
         <View style={{ flex: 1 }}>
-            {/* <WebView
+            <WebView
                 source={{ uri: 'https://192.168.1.114:1337/test' }}
                 accessibilityLabel="This is webview, React native"
                 accessible={true}
@@ -65,11 +60,7 @@ function Web() {
                 originWhitelist={['*']}
                 mixedContentMode="always"
                 onMessage={(event) => Msg(event)}
-            /> */}
-
-            <Text>DK Webview</Text>
-
-            {/* <Button title="Open WebView" onPress={openWebView} /> */}
+            />
         </View>
     );
 }

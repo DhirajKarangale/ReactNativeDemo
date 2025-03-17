@@ -97,7 +97,7 @@ const TabNavigator = () => {
 
                 <Tab.Screen name="Info" component={Info} />
                 <Tab.Screen name="Home" component={Home} />
-                <Tab.Screen name="WebView" component={Web} />
+                <Tab.Screen name="WebView" component={Info} />
                 <Tab.Screen name="Lic" component={Lic} />
 
             </Tab.Navigator>
